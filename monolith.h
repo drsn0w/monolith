@@ -4,6 +4,7 @@ int monolith(int argc, char** argv);
 int listdir(int argc, char** argv);
 int catfile(int argc, char** argv);
 int diskusage(int argc, char** argv);
+int yes(int argc, char** argv);
 
 const char* VERSION = "0.1a";
 
@@ -13,9 +14,10 @@ struct s_handler {
     std::string description;  
 };
 
-struct s_handler handlers[4] = {
+struct s_handler handlers[5] = {
     {"monolith",    monolith,   "The monolith binary"},
-    {"ls",         listdir,    "List contents of directory"},
+    {"ls",          listdir,    "List contents of directory"},
     {"cat",         catfile,    "Print contents of file"},
-    {"du",          diskusage,  "Show disk usage of files"}
+    {"du",          diskusage,  "Show disk usage of files"},
+    {"yes",         yes,        "Repeatedly output a string or 'y'"}
 };

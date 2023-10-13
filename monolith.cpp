@@ -105,3 +105,15 @@ int diskusage(int argc, char** argv) {
     }
     return 0;
 }
+
+int yes(int argc, char** argv) {
+    std::string string;
+    if (argc == 1) string = 'y';
+    else string = argv[1];
+
+    while(true) {
+        std::cout << string << std::endl;
+    }
+
+    return 0;
+}
