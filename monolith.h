@@ -10,11 +10,11 @@ const char* VERSION = "0.1a";
 
 struct s_handler {
     const char* name;
-    handler_t   function;
-    std::string description;  
+    const handler_t   function;
+    const char* description;  
 };
 
-struct s_handler handlers[5] = {
+const struct s_handler handlers[5] = {
     {"monolith",    monolith,   "The monolith binary"},
     {"ls",          listdir,    "List contents of directory"},
     {"cat",         catfile,    "Print contents of file"},
