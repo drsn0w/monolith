@@ -8,9 +8,6 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -Wstrict-prototypes -Wno-unuse
 set(CMAKE_CXX_STANDARD 23)
 
 add_executable(monolith monolith.cpp)
-add_executable(dir monolith.cpp)
-add_executable(cat monolith.cpp)
-add_executable(du monolith.cpp)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
