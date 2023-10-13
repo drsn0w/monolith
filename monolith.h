@@ -15,7 +15,7 @@ struct s_handler {
 
 struct s_handler handlers[4] = {
     {"monolith",    monolith,   "The monolith binary"},
-    {"dir",         listdir,    "List contents of directory"},
+    {"ls",         listdir,    "List contents of directory"},
     {"cat",         catfile,    "Print contents of file"},
     {"du",          diskusage,  "Show disk usage of files"}
 };
