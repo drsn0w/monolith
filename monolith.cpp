@@ -18,7 +18,23 @@ int main(int argc, char** argv) {
 }
 
 int monolith(int argc, char** argv) {
-    std::cout << "Change the executable name!" << std::endl;
+    if(argc > 1) {
+        for(s_handler handler : handlers) {
+            std::string elementname = argv[1];
+            if (elementname == handler.name) {
+                return handler.function(argc - 1, argv + 1);
+            }
+        }
+        std::cerr << "Usage: monolith [element name] [arguments]" << std::endl;
+        return 1;
+    }
+
+    std::cout << "Monolith v" << VERSION << " - An experimental single-binary coreutils solution." << std::endl;
+    std::cout << "Usage: monolith [applet name] [arguments]" << std::endl;
+    std::cout << "Currently enabled Elements: " << std::endl;
+    for(s_handler handler : handlers) {
+        std::cout << handler.name << ": " << handler.description << std::endl;
+    }
     return 0;
 }
 
