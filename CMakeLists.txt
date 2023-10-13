@@ -5,6 +5,7 @@ include(CTest)
 enable_testing()
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra -Wstrict-prototypes -Wno-unused-function -fsanitize=address")
+set(CMAKE_CXX_STANDARD 23)
 
 add_executable(monolith monolith.cpp)
 add_executable(dir monolith.cpp)
