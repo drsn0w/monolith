@@ -104,3 +104,19 @@ int yes(int argc, char** argv) {
 
     return 0;
 }
+
+int copyfile(int argc, char** argv) {
+    namespace fs = std::filesystem;
+    if (argc != 3) {
+        std::cerr << "Usage: cp [source file] [destination file]" << std::endl;
+        return 1;
+    }
+    fs::path sourceFile = argv[1];
+    fs::path destFile = argv[2];
+    if(!fs::exists(sourceFile)) {
+        std::cerr << "No such file or directory [" << sourceFile << "]" << std::endl;
+        return 1;
+    } 
+    fs::copy(sourceFile, destFile, fs::copy_options::overwrite_existing | fs::copy_options::recursive);
+    return 0;
+}
