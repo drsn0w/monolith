@@ -6,7 +6,7 @@ int catfile(int argc, char** argv);
 int diskusage(int argc, char** argv);
 int yes(int argc, char** argv);
 
-const char* VERSION = "0.1a";
+static const char* VERSION = "0.1a";
 
 struct s_handler {
     const char* name;
