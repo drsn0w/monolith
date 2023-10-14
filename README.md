@@ -13,8 +13,9 @@ Currently the following Elements are implemented:
 ## Building
 Monolith is designed to only require the standard C++ libraries from C++23. To build Monolith, use cmake:
 ```
-cmake CMakeLists.txt -B build/
-cd build/
+mkdir build
+cd build
+cmake ..
 make
 ```
 At the current stage, Monolith's build system will not install itself. It's up to you to place it where you want it and create the symlinks you want.
