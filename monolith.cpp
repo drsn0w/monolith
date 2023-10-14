@@ -139,3 +139,18 @@ int movefile(int argc, char** argv) {
     fs::rename(sourceFile, destFile);
     return 0;
 }
+
+int delfile(int argc, char** argv) {
+    namespace fs = std::filesystem;
+    if (argc == 1) {
+        std::cerr << "Usage: rm [filename]" << std::endl;
+        return 1;
+    }
+    fs::path filename = argv[1];
+    if(!fs::exists(filename)) {
+        std::cerr << "No such file or directory [" << filename << "]" << std::endl;
+        return 1;
+    }
+    fs::remove_all(filename);
+    return 0;
+}
