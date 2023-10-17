@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <filesystem>
-#include <getopt.h>
+#include <unistd.h>
 
 #include "monolith.h"
 
@@ -142,37 +142,53 @@ int movefile(int argc, char** argv) {
 }
 
 int delfile(int argc, char** argv) {
-    // parse arguments
-    int recursive_flag;
-    int force_flag;
-    static struct option arguments[] = {
-        {"recursive",   no_argument,    &recursive_flag,    1},
-        {"force",       no_argument,    &force_flag,        1}
-    };
 
-    int argindex;
-    while((argindex = getopt_long(argc, argv, "fr", arguments, NULL)) != -1) {
-        switch(argindex) {
+    namespace fs = std::filesystem;
+
+    int recursive = 0;
+    int force = 0;
+    int verbose = 0;
+
+    // parse arguments
+    int opt;
+    opterr = 0;
+    while((opt = getopt(argc, argv, "rfv")) != -1) {
+        switch(opt) {
             case 'r':
-                std::cout << "Recursive!" << std::endl;
+                recursive = 1;
                 break;
             case 'f':
-                std::cout << "Force!" << std::endl;
+                force = 1;
                 break;
+            case 'v':
+                verbose = 1;
+                break;
+            default:
+                std::cout << "Unknown argument -" << char(optopt) << std::endl << "Usage: rm [filename]" << std::endl;
+                return 1;
         }
     }
 
-    namespace fs = std::filesystem;
-    if (argc == 1) {
-        std::cerr << "Usage: rm [filename]" << std::endl;
+    if(optind >= argc) {
+        std::cout << "Usage: rm [filename]" << std::endl;
         return 1;
     }
 
     fs::path filename = argv[optind];
+
     if(!fs::exists(filename)) {
         std::cerr << "No such file or directory [" << filename << "]" << std::endl;
         return 1;
     }
-    fs::remove_all(filename);
+
+    if(recursive && force) {
+        fs::remove_all(filename);
+        if(verbose) std::cout << "rm: removing " << filename << std::endl;
+        return 0;
+    }
+
+    fs::remove(filename);
+    if(verbose) std::cout << "rm: removing " << filename << std::endl;
+
     return 0;
 }
