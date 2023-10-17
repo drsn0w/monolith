@@ -40,7 +40,7 @@ int listdir(int argc, char** argv) {
     }
     std::cout << std::string{directory} << ":" << std::endl;
     for (fs::directory_entry dir_entry : fs::directory_iterator{directory}) 
-        std::cout << "  " << std::string{dir_entry.path().filename()} << std::endl;
+        std::cout << "  " << std::string{dir_entry.path()} << std::endl;
     return 0;
 }
 
@@ -73,11 +73,26 @@ int catfile(int argc, char** argv) {
 
 int diskusage(int argc, char** argv) {
     namespace fs = std::filesystem;
+
+    bool human_readable = false;
+
+    int opt;
+    opterr = 0;
+    while((opt = getopt(argc, argv, "h")) != -1) {
+        switch(opt) {
+            case 'h':
+                human_readable = true;
+                break;
+            default:
+                std::cerr << "Unknown argument -" << char(optopt) << std::endl << "Usage: du [filename]" << std::endl;
+        }
+    }
+
     fs::path filename;
-    if(argc == 1) {
+    if(optind >= argc) {
         filename = fs::current_path();
     } else {
-        filename = argv[1];
+        filename = argv[optind];
         if(!fs::exists(filename)) {
            std::cerr << "No such file or directory [" << argv[1] << "]" << std::endl;
            return 1;
