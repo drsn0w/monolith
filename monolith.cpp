@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <filesystem>
+#include <getopt.h>
 
 #include "monolith.h"
 
@@ -141,12 +142,33 @@ int movefile(int argc, char** argv) {
 }
 
 int delfile(int argc, char** argv) {
+    // parse arguments
+    int recursive_flag;
+    int force_flag;
+    static struct option arguments[] = {
+        {"recursive",   no_argument,    &recursive_flag,    1},
+        {"force",       no_argument,    &force_flag,        1}
+    };
+
+    int argindex;
+    while((argindex = getopt_long(argc, argv, "fr", arguments, NULL)) != -1) {
+        switch(argindex) {
+            case 'r':
+                std::cout << "Recursive!" << std::endl;
+                break;
+            case 'f':
+                std::cout << "Force!" << std::endl;
+                break;
+        }
+    }
+
     namespace fs = std::filesystem;
     if (argc == 1) {
         std::cerr << "Usage: rm [filename]" << std::endl;
         return 1;
     }
-    fs::path filename = argv[1];
+
+    fs::path filename = argv[optind];
     if(!fs::exists(filename)) {
         std::cerr << "No such file or directory [" << filename << "]" << std::endl;
         return 1;
