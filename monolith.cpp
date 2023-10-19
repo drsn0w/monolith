@@ -4,9 +4,22 @@
 
 #include "monolith.h"
 
+struct s_handler element_handlers[] = {
+    {"monolith",    monolith,   "The monolith binary"},
+    {"ls",          listdir,    "List contents of directory"},
+    {"cat",         catfile,    "Print contents of file"},
+    {"du",          diskusage,  "Show disk usage of files"},
+    {"yes",         yes,        "Repeatedly output a string or 'y'"},
+    {"cp",          copyfile,   "Copy a file or directory"},
+    {"mv",          movefile,   "Move or rename a file or directory"},
+    {"rm",          delfile,    "Delete a file or directory"},
+};
+
+size_t element_handler_count = sizeof(element_handlers) / sizeof(element_handlers[0]);
+
 int monolith(int argc, char** argv) {
     if(argc > 1) {
-        for(s_handler handler : handlers) {
+        for(s_handler handler : element_handlers) {
             std::string elementname = argv[1];
             if (elementname == handler.name) {
                 return handler.function(argc - 1, argv + 1);
@@ -19,7 +32,7 @@ int monolith(int argc, char** argv) {
     std::cout << "Monolith v" << VERSION << " - An experimental single-binary coreutils solution." << std::endl;
     std::cout << "Usage: monolith [applet name] [arguments]" << std::endl;
     std::cout << "Currently enabled Elements: " << std::endl;
-    for(s_handler handler : handlers) {
+    for(s_handler handler : element_handlers) {
         std::cout << handler.name << ": " << handler.description << std::endl;
     }
     return 0;
@@ -38,7 +51,7 @@ int listdir(int argc, char** argv) {
         }
     }
     std::cout << std::string{directory} << ":" << std::endl;
-    for (fs::directory_entry dir_entry : fs::directory_iterator{directory}) 
+    for (fs::directory_entry dir_entry : fs::directory_iterator{directory})
         std::cout << "  " << std::string{dir_entry.path().filename()} << std::endl;
     return 0;
 }
@@ -116,7 +129,7 @@ int copyfile(int argc, char** argv) {
     if(!fs::exists(sourceFile)) {
         std::cerr << "No such file or directory [" << sourceFile << "]" << std::endl;
         return 1;
-    } 
+    }
     fs::copy(sourceFile, destFile, fs::copy_options::overwrite_existing | fs::copy_options::recursive);
     return 0;
 }
