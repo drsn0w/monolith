@@ -1,3 +1,5 @@
+#pragma once
+
 using handler_t = int (*)(int argc, char** argv);
 
 int monolith(int argc, char** argv);
