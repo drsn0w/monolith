@@ -1,3 +1,3 @@
 #pragma once
 
-std::string bytes_to_hr(unsigned long long int bytes);
+std::string bytes_to_hr(uint64_t bytes, int precision);

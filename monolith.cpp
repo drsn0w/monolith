@@ -100,14 +100,14 @@ int diskusage(int argc, char** argv) {
         }
     }
     if(!fs::is_directory(filename)) {
-        if(human_readable) std::cout << std::left << std::setw(10) << bytes_to_hr(fs::file_size(filename)) << std::string{filename} << std::endl;
+        if(human_readable) std::cout << std::left << std::setw(10) << bytes_to_hr(fs::file_size(filename), 1) << std::string{filename} << std::endl;
         else std::cout << std::left << std::setw(10) << fs::file_size(filename) << std::string {filename} << std::endl;
         
         
     } else {
         for (fs::directory_entry dir_entry : fs::directory_iterator{filename}) {
             if(!fs::is_directory(dir_entry.path()))
-                if(human_readable) std::cout << std::left << std::setw(10) << bytes_to_hr(fs::file_size(dir_entry.path())) << std::string{dir_entry.path().filename()} << std::endl;
+                if(human_readable) std::cout << std::left << std::setw(10) << bytes_to_hr(fs::file_size(dir_entry.path()), 1) << std::string{dir_entry.path().filename()} << std::endl;
                 
                 else std::cout << std::left << std::setw(10) << fs::file_size(dir_entry.path()) << std::string{dir_entry.path().filename()} << std::endl;;
         }

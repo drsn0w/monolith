@@ -3,7 +3,7 @@
 
 #include "include/utils.h"
 
-std::string bytes_to_hr(unsigned long long int bytes) {
+std::string bytes_to_hr(uint64_t bytes, int precision) {
     double f_bytes = static_cast<double>(bytes);
     const std::string units[] = {"B", "K", "M", "G", "T", "P"};
 
@@ -15,7 +15,7 @@ std::string bytes_to_hr(unsigned long long int bytes) {
 
     std::stringstream stream;
 
-    stream << std::fixed << std::setprecision(1) << f_bytes;
+    stream << std::fixed << std::setprecision(precision) << f_bytes;
 
     return stream.str() + units[i];
 }
