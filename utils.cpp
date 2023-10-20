@@ -5,9 +5,9 @@
 
 std::string bytes_to_hr(uint64_t bytes, int precision) {
     double f_bytes = static_cast<double>(bytes);
-    const std::string units[] = {"B", "K", "M", "G", "T", "P"};
+    static const char* const units[] = {"B", "K", "M", "G", "T", "P"};
 
-    int i = 0;
+    unsigned int i = 0;
     while (f_bytes > 1024) {
         f_bytes /= 1024;
         i++;
