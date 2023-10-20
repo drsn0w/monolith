@@ -3,7 +3,8 @@
 #include <filesystem>
 #include <unistd.h>
 
-#include "monolith.h"
+#include "include/monolith.h"
+#include "include/utils.h"
 
 int monolith(int argc, char** argv) {
     if(argc > 1) {
@@ -99,11 +100,16 @@ int diskusage(int argc, char** argv) {
         }
     }
     if(!fs::is_directory(filename)) {
-        std::cout << "  " << std::string{filename} << "  " << fs::file_size(filename) << std::endl;
+        if(human_readable) std::cout << std::left << std::setw(10) << bytes_to_hr(fs::file_size(filename)) << std::string{filename} << std::endl;
+        else std::cout << std::left << std::setw(10) << fs::file_size(filename) << std::string {filename} << std::endl;
+        
+        
     } else {
         for (fs::directory_entry dir_entry : fs::directory_iterator{filename}) {
             if(!fs::is_directory(dir_entry.path()))
-                std::cout << "  " << std::string{dir_entry.path().filename()} << "  " << fs::file_size(dir_entry.path()) << std::endl;
+                if(human_readable) std::cout << std::left << std::setw(10) << bytes_to_hr(fs::file_size(dir_entry.path())) << std::string{dir_entry.path().filename()} << std::endl;
+                
+                else std::cout << std::left << std::setw(10) << fs::file_size(dir_entry.path()) << std::string{dir_entry.path().filename()} << std::endl;;
         }
     }
     return 0;

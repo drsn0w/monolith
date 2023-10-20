@@ -2,7 +2,7 @@
 #include <fstream>
 #include <filesystem>
 
-#include "monolith.h"
+#include "include/monolith.h"
 
 int main(int argc, char** argv) {
 
